@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Chat\CompanyJobseekerMsg;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\PostedJob;
@@ -251,6 +253,14 @@ class CompanyPostsController extends Controller
         $jobseekers = $job->jobseekers()->where('type',1)->paginate(6);
 
         return view('company.candidatesAppliedForJobs',['jobseekers' => $jobseekers]);
+    }
+
+    //----------------show chats function
+
+    public function GetMsg()
+    {
+        $chats  = CompanyJobseekerMsg::all();
+        dd($chats);
     }
 
     public function destroy($id)

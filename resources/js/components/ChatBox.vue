@@ -38,14 +38,14 @@
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer">
-                    <form method="post">
+
                     <div class="input-group">
-                        <input type="text" name="message" placeholder="Type Message ..." class="form-control @error('message') is-invalid @enderror">
+                        <input type="text" name="message" v-model="msgs" placeholder="Type Message ..." class="form-control @error('message') is-invalid @enderror">
                         <span class="input-group-btn">
-                            <button type="submit" class="btn btn-warning btn-flat">Send</button>
+                            <button type="button" v-on:click="msg()" class="btn btn-warning btn-flat">Send</button>
                             </span>
                     </div>
-                    </form>
+
                 </div>
                 <!-- /.box-footer-->
                 </div>
@@ -54,6 +54,29 @@
 
 <script>
 export default {
+    props : ['jid','cid'],
 
+    data : () => {
+        return {
+            'msgs' : '',
+        }
+    },
+
+    methods: {
+        msg(){
+            axios.get('/company/msg/'+this.jid+'/'+this.cid
+
+
+
+
+            )
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => {
+                console.error(err);
+            })
+        }
+    },
 }
 </script>

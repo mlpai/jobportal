@@ -20,7 +20,8 @@ Route::get('/verify/Email/Resend','Authorization\VerificationController@resendEm
 
 
 // msg send chat pop-up
-Route::post('msg','CompanyJobseekerMsgController@store')->middleware('auth')->name('chatPost');
+Route::get('/msg/{Jobseekerid}/{CompanyId}','CompanyPostsController@GetMsg')->middleware(['auth','profileCreated'])->prefix('company');
+Route::post('/msg','CompanyJobseekerMsgController@store')->middleware('auth')->name('chatPost');
 
 //company
 Route::get('/profile/edit','CompanyProfileController@index')->prefix('company')->name('EditProfile');

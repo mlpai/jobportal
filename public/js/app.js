@@ -1768,7 +1768,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ __webpack_exports__["default"] = ({});
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ['jid', 'cid'],
+  data: function data() {
+    return {
+      'msgs': ''
+    };
+  },
+  methods: {
+    msg: function msg() {
+      axios.get('/company/msg/' + this.jid + '/' + this.cid).then(function (res) {
+        console.log(res);
+      })["catch"](function (err) {
+        console.error(err);
+      });
+    }
+  }
+});
 
 /***/ }),
 
@@ -32232,100 +32248,116 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", {}, [
+    _c(
+      "div",
+      { staticClass: "box box-warning direct-chat direct-chat-warning" },
+      [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("div", { staticClass: "box-footer" }, [
+          _c("div", { staticClass: "input-group" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.msgs,
+                  expression: "msgs"
+                }
+              ],
+              staticClass:
+                "form-control @error('message') is-invalid @enderror",
+              attrs: {
+                type: "text",
+                name: "message",
+                placeholder: "Type Message ..."
+              },
+              domProps: { value: _vm.msgs },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.msgs = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("span", { staticClass: "input-group-btn" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-warning btn-flat",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      return _vm.msg()
+                    }
+                  }
+                },
+                [_vm._v("Send")]
+              )
+            ])
+          ])
+        ])
+      ]
+    )
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", {}, [
-      _c(
-        "div",
-        { staticClass: "box box-warning direct-chat direct-chat-warning" },
-        [
-          _c("div", { staticClass: "box-body" }, [
-            _c("div", { staticClass: "direct-chat-messages" }, [
-              _c("div", { staticClass: "direct-chat-msg" }, [
-                _c("div", { staticClass: "direct-chat-info clearfix" }, [
-                  _c("span", { staticClass: "direct-chat-name float-left" }, [
-                    _vm._v("Name")
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "span",
-                    { staticClass: "direct-chat-timestamp float-right" },
-                    [_vm._v("23 Jan 2:00 pm")]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("img", {
-                  staticClass: "direct-chat-img",
-                  attrs: { src: "images/profiles/", alt: "message user image" }
-                }),
-                _vm._v(" "),
-                _c("div", { staticClass: "direct-chat-text" }, [
-                  _vm._v(
-                    "\n                    Is this template really for free? That's unbelievable!\n                    "
-                  )
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "direct-chat-msg right" }, [
-                _c("div", { staticClass: "direct-chat-info clearfix " }, [
-                  _c("span", { staticClass: "direct-chat-name float-right" }, [
-                    _vm._v("Name Rec")
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "span",
-                    { staticClass: "direct-chat-timestamp float-left " },
-                    [_vm._v("23 Jan 2:05 pm")]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("img", {
-                  staticClass: "direct-chat-img",
-                  attrs: { src: "images/profiles/", alt: "message user image" }
-                }),
-                _vm._v(" "),
-                _c("div", { staticClass: "direct-chat-text" }, [
-                  _vm._v(
-                    "\n                    You better believe it!\n                    "
-                  )
-                ])
-              ])
+    return _c("div", { staticClass: "box-body" }, [
+      _c("div", { staticClass: "direct-chat-messages" }, [
+        _c("div", { staticClass: "direct-chat-msg" }, [
+          _c("div", { staticClass: "direct-chat-info clearfix" }, [
+            _c("span", { staticClass: "direct-chat-name float-left" }, [
+              _vm._v("Name")
+            ]),
+            _vm._v(" "),
+            _c("span", { staticClass: "direct-chat-timestamp float-right" }, [
+              _vm._v("23 Jan 2:00 pm")
             ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "box-footer" }, [
-            _c("form", { attrs: { method: "post" } }, [
-              _c("div", { staticClass: "input-group" }, [
-                _c("input", {
-                  staticClass:
-                    "form-control @error('message') is-invalid @enderror",
-                  attrs: {
-                    type: "text",
-                    name: "message",
-                    placeholder: "Type Message ..."
-                  }
-                }),
-                _vm._v(" "),
-                _c("span", { staticClass: "input-group-btn" }, [
-                  _c(
-                    "button",
-                    {
-                      staticClass: "btn btn-warning btn-flat",
-                      attrs: { type: "submit" }
-                    },
-                    [_vm._v("Send")]
-                  )
-                ])
-              ])
-            ])
+          _c("img", {
+            staticClass: "direct-chat-img",
+            attrs: { src: "images/profiles/", alt: "message user image" }
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "direct-chat-text" }, [
+            _vm._v(
+              "\n                    Is this template really for free? That's unbelievable!\n                    "
+            )
           ])
-        ]
-      )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "direct-chat-msg right" }, [
+          _c("div", { staticClass: "direct-chat-info clearfix " }, [
+            _c("span", { staticClass: "direct-chat-name float-right" }, [
+              _vm._v("Name Rec")
+            ]),
+            _vm._v(" "),
+            _c("span", { staticClass: "direct-chat-timestamp float-left " }, [
+              _vm._v("23 Jan 2:05 pm")
+            ])
+          ]),
+          _vm._v(" "),
+          _c("img", {
+            staticClass: "direct-chat-img",
+            attrs: { src: "images/profiles/", alt: "message user image" }
+          }),
+          _vm._v(" "),
+          _c("div", { staticClass: "direct-chat-text" }, [
+            _vm._v(
+              "\n                    You better believe it!\n                    "
+            )
+          ])
+        ])
+      ])
     ])
   }
 ]
