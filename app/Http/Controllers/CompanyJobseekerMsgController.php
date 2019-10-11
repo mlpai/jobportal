@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Chat\CompanyJobseekerMsg;
+use App\Company;
+use App\Jobseeker;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CompanyJobseekerMsgController extends Controller
 {
@@ -20,7 +23,10 @@ class CompanyJobseekerMsgController extends Controller
             'message' => 'required|max:500',
         ]);
 
-        dd($data);
+        if($request->cid == Auth::user()->id)
+        {
+            $request->jid;
+        }
     }
 
     public function destroy(CompanyJobseekerMsg $companyJobseekerMsg)

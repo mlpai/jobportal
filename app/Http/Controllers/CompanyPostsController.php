@@ -260,7 +260,7 @@ class CompanyPostsController extends Controller
     public function GetMsg()
     {
         $chats  = CompanyJobseekerMsg::all();
-        dd($chats);
+        return $chats->toJson();
     }
 
     public function destroy($id)
