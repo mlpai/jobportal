@@ -1,0 +1,48 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+@import '~admin-lte/dist/css/adminlte.css';
+@import '~flatpickr/dist/flatpickr.css';
+@import '~select2/dist/css/select2.css';
+
+@import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "~@fortawesome/fontawesome-free/scss/solid.scss";
+@import "~@fortawesome/fontawesome-free/scss/brands.scss";
+
+
+
+//colors
+$pink : #f66d9b;
+$blue :#3490dc;
+$indigo:#6574cd;
+$purpule:#9561e2;
+$red:#e3342f;
+$orange:#f6993f;
+$yellow:#ffed4a;
+$green:#38c172;
+$teal:#4dc0b5;
+$cyan:#6cb2eb;
+$theme:#1b148abd;
+
+
+.router-link-exact-active{
+    background: #c32db1;
+}
+
+.theme-bg{background:$theme;}
+
+.pink-ico{color:$pink;}
+.blue-ico{color:$blue;}
+.indigo-ico{color:$indigo;}
+.purpule-ico{color:$purpule;}
+.red-ico{color:$red;}
+.orange-ico{color:$orange;}
+.yellow-ico{color:$yellow;}
+.green-ico{color:$green;}
+.teal-ico{color:$teal;}
+.cyan-ico{color:$cyan;}
