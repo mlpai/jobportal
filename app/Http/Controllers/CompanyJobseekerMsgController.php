@@ -11,22 +11,28 @@ use Illuminate\Support\Facades\Auth;
 class CompanyJobseekerMsgController extends Controller
 {
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $data = $request->validate([
             'message' => 'required|max:500',
+            'jobseeker_id' => 'required|integer',
+            'company_id' => 'required|integer',
         ]);
 
-        if($request->cid == Auth::user()->id)
+        if($request->company_id == Auth::user()->id)
         {
-            $request->jid;
+            $jobseeker = Jobseeker::findorfail($request->jobseeker_id);
+        } else {
+            return "Invalid User";
         }
+
+        // Store in table
+
+        $data['sentBy'] = '0'; //0 for company 1 for jobseeker
+
+        CompanyJobseekerMsg::create($data);
+
+
     }
 
     public function destroy(CompanyJobseekerMsg $companyJobseekerMsg)

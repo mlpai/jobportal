@@ -17,5 +17,4 @@ class Company extends User
         return $this->hasOne('App\CompanyProfiles');
     }
 
-
 }

@@ -17,7 +17,8 @@ class CreateCompanyJobseekerMsgsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('jobseeker_id');
             $table->unsignedBigInteger('company_id');
-            $table->string('msg',500);
+            $table->string('message',500);
+            $table->unsignedBigInteger('sentBy');
             $table->timestamps();
 
             $table->foreign('jobseeker_id')->references('id')->on('users');

@@ -1778,21 +1778,25 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     setmsg: function setmsg() {
+      var _this = this;
+
       axios.post('/msg', {
         message: this.text,
-        jid: this.jid,
-        cid: this.cid
+        jobseeker_id: this.jid,
+        company_id: this.cid
       }).then(function (res) {
         console.log(res);
+
+        _this.getmsg();
       })["catch"](function (err) {
         console.error(err);
       });
     },
     getmsg: function getmsg() {
-      var _this = this;
+      var _this2 = this;
 
       axios.get('/company/msg/' + this.jid + '/' + this.cid).then(function (res) {
-        _this.msgs = res.data; // console.log(res)
+        _this2.msgs = res.data;
       })["catch"](function (err) {
         console.error(err);
       });
@@ -32274,32 +32278,38 @@ var render = function() {
           _c(
             "div",
             { staticClass: "direct-chat-messages" },
-            [
-              _vm._l(_vm.msgs, function(data) {
-                return _c("div", { staticClass: "direct-chat-msg" }, [
-                  _vm._m(0, true),
+            _vm._l(_vm.msgs, function(data) {
+              return _c("div", { staticClass: "direct-chat-msg right" }, [
+                _c("div", { staticClass: "direct-chat-info clearfix" }, [
+                  _c("span", { staticClass: "direct-chat-name float-right" }, [
+                    _vm._v("Name")
+                  ]),
                   _vm._v(" "),
-                  _c("img", {
-                    staticClass: "direct-chat-img",
-                    attrs: {
-                      src: "images/profiles/",
-                      alt: "message user image"
-                    }
-                  }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "direct-chat-text" }, [
-                    _vm._v(
-                      "\n                            " +
-                        _vm._s(data.msg) +
-                        "\n                        "
-                    )
-                  ])
+                  _c(
+                    "span",
+                    { staticClass: "direct-chat-timestamp float-left" },
+                    [_vm._v(_vm._s(data.created_at))]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("img", {
+                  staticClass: "direct-chat-img",
+                  attrs: {
+                    src: "http://job2.io/images/person_1.jpg",
+                    alt: "message user image"
+                  }
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "direct-chat-text" }, [
+                  _vm._v(
+                    "\n                            " +
+                      _vm._s(data.message) +
+                      "\n                        "
+                  )
                 ])
-              }),
-              _vm._v(" "),
-              _vm._m(1)
-            ],
-            2
+              ])
+            }),
+            0
           )
         ]),
         _vm._v(" "),
@@ -32353,49 +32363,7 @@ var render = function() {
     )
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "direct-chat-info clearfix" }, [
-      _c("span", { staticClass: "direct-chat-name float-left" }, [
-        _vm._v("Name")
-      ]),
-      _vm._v(" "),
-      _c("span", { staticClass: "direct-chat-timestamp float-right" }, [
-        _vm._v("23 Jan 2:00 pm")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "direct-chat-msg right" }, [
-      _c("div", { staticClass: "direct-chat-info clearfix " }, [
-        _c("span", { staticClass: "direct-chat-name float-right" }, [
-          _vm._v("Name Rec")
-        ]),
-        _vm._v(" "),
-        _c("span", { staticClass: "direct-chat-timestamp float-left " }, [
-          _vm._v("23 Jan 2:05 pm")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("img", {
-        staticClass: "direct-chat-img",
-        attrs: { src: "images/profiles/", alt: "message user image" }
-      }),
-      _vm._v(" "),
-      _c("div", { staticClass: "direct-chat-text" }, [
-        _vm._v(
-          "\n                        You better believe it!\n                        "
-        )
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

@@ -257,9 +257,10 @@ class CompanyPostsController extends Controller
 
     //----------------show chats function
 
-    public function GetMsg()
+    public function GetMsg(Request $request)
     {
-        $chats  = CompanyJobseekerMsg::all();
+
+        $chats  = CompanyJobseekerMsg::where('jobseeker_id',$request->Jobseekerid)->get();
         return $chats->toJson();
     }
 
