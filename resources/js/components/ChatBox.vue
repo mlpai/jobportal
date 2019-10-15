@@ -8,14 +8,15 @@
                         <!-- Message. Default to the left -->
                         <div v-for="data in msgs" class="direct-chat-msg" :class="[data.sentBy ? 'left' : 'right']" >
                             <div class="direct-chat-info clearfix">
-                            <span class="direct-chat-name " :class="[data.sentBy ? 'float-left' : 'float-right']">{{users.name}}</span>
-                            <span class="direct-chat-timestamp" :class="[data.sentBy ? 'float-right' : 'flaot-left']" >{{data.created_at}}</span>
+                            <span v-if="data.sentBy == 1" class="direct-chat-name " :class="[data.sentBy ? 'float-left' : 'float-right']">{{users.name}}</span>
+                            <span v-else class="direct-chat-name " :class="[data.sentBy ? 'float-left' : 'float-right']">{{cmp}}</span>
+                            <span class="direct-chat-timestamp small " :class="[data.sentBy ? 'float-right' : 'flaot-left']" >{{data.created_at | formatDate}}</span>
                             </div>
                             <!-- /.direct-chat-info -->
 
-                            <img  v-if="data.sentBy == 0" class="direct-chat-img" :src=" 'http://job2.io/images/' + [photo ? 'profiles/'+users.photo : 'person_1.jpg'] " alt="message user image">
+                            <img  v-if="data.sentBy == 1" class="direct-chat-img" :src=" 'http://job2.io/images/' + [photo ? 'profiles/'+users.photo : 'user.jpg'] " alt="message user image">
 
-                            <img v-else class="direct-chat-img" :src=" 'http://job2.io/images/' + [photo ? pic : 'person_1.jpg'] " alt="message user image">
+                            <img v-else class="direct-chat-img" :src=" 'http://job2.io/images/' + [photo ? 'profiles/'+pic : 'user.jpg'] " alt="message user image">
 
                             <!-- /.direct-chat-img -->
                             <div class="direct-chat-text">
@@ -53,7 +54,8 @@ export default {
             error : false,
             photo : false,
             users : null,
-            pic : 'person_1.jpg',
+            pic : null,
+            cmp : 'You',
         }
     },
 
@@ -77,6 +79,11 @@ export default {
                 if(res.data.user.photo != null)
                 {
                      this.photo = true;
+                }
+                if(res.data.cmp.photo != null)
+                {
+                     this.photo = true;
+                     this.pic = res.data.cmp.photo;
                 }
                 this.msgs = res.data.chats;
                 this.users = res.data.user;

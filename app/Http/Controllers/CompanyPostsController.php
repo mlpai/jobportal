@@ -259,11 +259,12 @@ class CompanyPostsController extends Controller
 
     //----------------show chats function
 
-    public function GetMsg(Request $request,Jobseeker $Jobseekerid)
+    public function GetMsg(Request $request,Jobseeker $Jobseekerid,Company $CompanyId)
     {
         $user = ['name'=>$Jobseekerid->name,'photo'=>$Jobseekerid->JobseekerProfile->profile_photo];
+        $cmp = ['name'=>$CompanyId->name,'photo'=>$CompanyId->CompanyProfile->photo];
         $chats = CompanyJobseekerMsg::where('jobseeker_id',$Jobseekerid->id)->orderby('created_at','desc')->get();
-        return json_encode(['chats'=>$chats,'user'=>$user]);
+        return json_encode(['chats'=>$chats,'user'=>$user,'cmp'=>$cmp]);
     }
 
     public function destroy($id)

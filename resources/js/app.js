@@ -8,7 +8,8 @@ import $ from 'jquery';
 import swal from 'sweetalert2'
 import flatpickr from "flatpickr";
 import select2 from "select2";
-//import flatpickr from "flatpickr";
+import moment from 'moment'
+
 
 window.$ = window.jQuery = $;
 window.flatpickr = flatpickr;
@@ -45,6 +46,11 @@ window.axios = require('axios');
 
 // const files = require.context('./', true, /\.vue$/i);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default));
+Vue.filter('formatDate', function(value) {
+    if (value) {
+      return moment(String(value)).format('Do MMM, h:mm a');
+    }
+  });
 
 Vue.component('JobStatus', require('./components/JobStatus.vue').default);
 Vue.component('chatbox', require('./components/ChatBox.vue').default);
