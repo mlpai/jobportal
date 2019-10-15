@@ -1757,46 +1757,51 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['jid', 'cid'],
   data: function data() {
     return {
       msgs: null,
-      text: ''
+      text: '',
+      pos: false,
+      error: false,
+      photo: false,
+      users: null,
+      pic: 'person_1.jpg'
     };
   },
   methods: {
     setmsg: function setmsg() {
       var _this = this;
 
-      axios.post('/msg', {
-        message: this.text,
-        jobseeker_id: this.jid,
-        company_id: this.cid
-      }).then(function (res) {
-        console.log(res);
+      if (this.text == '') {
+        this.error = true;
+      } else {
+        axios.post('/msg', {
+          message: this.text,
+          jobseeker_id: this.jid,
+          company_id: this.cid
+        }).then(function (res) {
+          _this.error = false;
 
-        _this.getmsg();
-      })["catch"](function (err) {
-        console.error(err);
-      });
+          _this.getmsg();
+
+          _this.text = '';
+        })["catch"](function (err) {
+          console.error(err);
+        });
+      }
     },
     getmsg: function getmsg() {
       var _this2 = this;
 
       axios.get('/company/msg/' + this.jid + '/' + this.cid).then(function (res) {
-        _this2.msgs = res.data;
+        if (res.data.user.photo != null) {
+          _this2.photo = true;
+        }
+
+        _this2.msgs = res.data.chats;
+        _this2.users = res.data.user;
       })["catch"](function (err) {
         console.error(err);
       });
@@ -32279,35 +32284,66 @@ var render = function() {
             "div",
             { staticClass: "direct-chat-messages" },
             _vm._l(_vm.msgs, function(data) {
-              return _c("div", { staticClass: "direct-chat-msg right" }, [
-                _c("div", { staticClass: "direct-chat-info clearfix" }, [
-                  _c("span", { staticClass: "direct-chat-name float-right" }, [
-                    _vm._v("Name")
+              return _c(
+                "div",
+                {
+                  staticClass: "direct-chat-msg",
+                  class: [data.sentBy ? "left" : "right"]
+                },
+                [
+                  _c("div", { staticClass: "direct-chat-info clearfix" }, [
+                    _c(
+                      "span",
+                      {
+                        staticClass: "direct-chat-name ",
+                        class: [data.sentBy ? "float-left" : "float-right"]
+                      },
+                      [_vm._v(_vm._s(_vm.users.name))]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "span",
+                      {
+                        staticClass: "direct-chat-timestamp",
+                        class: [data.sentBy ? "float-right" : "flaot-left"]
+                      },
+                      [_vm._v(_vm._s(data.created_at))]
+                    )
                   ]),
                   _vm._v(" "),
-                  _c(
-                    "span",
-                    { staticClass: "direct-chat-timestamp float-left" },
-                    [_vm._v(_vm._s(data.created_at))]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("img", {
-                  staticClass: "direct-chat-img",
-                  attrs: {
-                    src: "http://job2.io/images/person_1.jpg",
-                    alt: "message user image"
-                  }
-                }),
-                _vm._v(" "),
-                _c("div", { staticClass: "direct-chat-text" }, [
-                  _vm._v(
-                    "\n                            " +
-                      _vm._s(data.message) +
-                      "\n                        "
-                  )
-                ])
-              ])
+                  data.sentBy == 0
+                    ? _c("img", {
+                        staticClass: "direct-chat-img",
+                        attrs: {
+                          src:
+                            "http://job2.io/images/" +
+                            [
+                              _vm.photo
+                                ? "profiles/" + _vm.users.photo
+                                : "person_1.jpg"
+                            ],
+                          alt: "message user image"
+                        }
+                      })
+                    : _c("img", {
+                        staticClass: "direct-chat-img",
+                        attrs: {
+                          src:
+                            "http://job2.io/images/" +
+                            [_vm.photo ? _vm.pic : "person_1.jpg"],
+                          alt: "message user image"
+                        }
+                      }),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "direct-chat-text" }, [
+                    _vm._v(
+                      "\n                            " +
+                        _vm._s(data.message) +
+                        "\n                        "
+                    )
+                  ])
+                ]
+              )
             }),
             0
           )
@@ -32324,8 +32360,8 @@ var render = function() {
                   expression: "text"
                 }
               ],
-              staticClass:
-                "form-control @error('message') is-invalid @enderror",
+              staticClass: "form-control",
+              class: [_vm.error ? "is-invalid" : ""],
               attrs: {
                 type: "text",
                 name: "message",

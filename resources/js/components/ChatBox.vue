@@ -6,41 +6,30 @@
                     <!-- Conversations are loaded here -->
                     <div class="direct-chat-messages" >
                         <!-- Message. Default to the left -->
-                        <div v-for="data in msgs" class="direct-chat-msg right">
+                        <div v-for="data in msgs" class="direct-chat-msg" :class="[data.sentBy ? 'left' : 'right']" >
                             <div class="direct-chat-info clearfix">
-                            <span class="direct-chat-name float-right">Name</span>
-                            <span class="direct-chat-timestamp float-left">{{data.created_at}}</span>
+                            <span class="direct-chat-name " :class="[data.sentBy ? 'float-left' : 'float-right']">{{users.name}}</span>
+                            <span class="direct-chat-timestamp" :class="[data.sentBy ? 'float-right' : 'flaot-left']" >{{data.created_at}}</span>
                             </div>
                             <!-- /.direct-chat-info -->
-                            <img class="direct-chat-img" src="http://job2.io/images/person_1.jpg" alt="message user image">
+
+                            <img  v-if="data.sentBy == 0" class="direct-chat-img" :src=" 'http://job2.io/images/' + [photo ? 'profiles/'+users.photo : 'person_1.jpg'] " alt="message user image">
+
+                            <img v-else class="direct-chat-img" :src=" 'http://job2.io/images/' + [photo ? pic : 'person_1.jpg'] " alt="message user image">
+
                             <!-- /.direct-chat-img -->
                             <div class="direct-chat-text">
                                 {{data.message}}
                             </div>
                             <!-- /.direct-chat-text -->
                         </div>
-                        <!-- /.direct-chat-msg -->
-                        <!-- Message to the right -->
-                                                        <!-- <div class="direct-chat-msg">
-                                                            <div class="direct-chat-info clearfix ">
-                                                            <span class="direct-chat-name float-left">Name Rec</span>
-                                                            <span class="direct-chat-timestamp float-right ">23 Jan 2:05 pm</span>
-                                                            </div>
-                                                            <!-- /.direct-chat-info -->
-                                                            <!-- <img class="direct-chat-img" src="http://job2.io/images/person_1.jpg" alt="message user image"> -->
-                                                            <!-- /.direct-chat-img -->
-                                                            <!-- <div class="direct-chat-text"> -->
-                                                            <!-- You better believe it! -->
-                                                            <!-- </div> -->
-                                                            <!-- /.direct-chat-text -->
-                                                        <!-- </div> -->
                     </div>
                 </div>
                 <!-- /.box-body -->
                 <div class="box-footer">
 
                     <div class="input-group">
-                        <input type="text" name="message" v-model="text" placeholder="Type Message ..." class="form-control @error('message') is-invalid @enderror">
+                        <input type="text" name="message" v-model="text" placeholder="Type Message ..." class="form-control"  :class="[error ? 'is-invalid' : '']" >
                         <span class="input-group-btn">
                             <button type="button" @click="setmsg()" class="btn btn-warning btn-flat">Send</button>
                             </span>
@@ -60,24 +49,37 @@ export default {
         return {
             msgs : null,
             text : '',
+            pos : false,
+            error : false,
+            photo : false,
+            users : null,
+            pic : 'person_1.jpg',
         }
     },
 
     methods: {
         setmsg(){
-            axios.post('/msg',{message:this.text, jobseeker_id : this.jid, company_id : this.cid})
-            .then(res => {
-                console.log(res)
-                this.getmsg();
-            })
-            .catch(err => {
-                console.error(err);
-            })
+            if(this.text == ''){this.error = true} else {
+                axios.post('/msg',{message:this.text, jobseeker_id : this.jid, company_id : this.cid})
+                .then(res => {
+                    this.error = false;
+                    this.getmsg();
+                    this.text = '';
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+            }
         },
         getmsg(){
             axios.get('/company/msg/'+this.jid+'/'+this.cid)
             .then(res => {
-               this.msgs = res.data;
+                if(res.data.user.photo != null)
+                {
+                     this.photo = true;
+                }
+                this.msgs = res.data.chats;
+                this.users = res.data.user;
             })
             .catch(err => {
                 console.error(err);

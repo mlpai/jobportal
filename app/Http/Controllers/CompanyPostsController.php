@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\PostedJob;
 use App\Company;
+use App\Jobseeker;
+
 class CompanyPostsController extends Controller
 {
     public function __construct()
@@ -257,11 +259,11 @@ class CompanyPostsController extends Controller
 
     //----------------show chats function
 
-    public function GetMsg(Request $request)
+    public function GetMsg(Request $request,Jobseeker $Jobseekerid)
     {
-
-        $chats  = CompanyJobseekerMsg::where('jobseeker_id',$request->Jobseekerid)->get();
-        return $chats->toJson();
+        $user = ['name'=>$Jobseekerid->name,'photo'=>$Jobseekerid->JobseekerProfile->profile_photo];
+        $chats = CompanyJobseekerMsg::where('jobseeker_id',$Jobseekerid->id)->orderby('created_at','desc')->get();
+        return json_encode(['chats'=>$chats,'user'=>$user]);
     }
 
     public function destroy($id)
