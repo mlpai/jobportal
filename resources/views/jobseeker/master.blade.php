@@ -28,6 +28,14 @@
                     </a>
                   </li>
                   <li class="nav-item">
+                    <a href="{{Route('messages')}}" class="nav-link {{Request::is('jobseekers/messages*')  ? 'active' : ''}}">
+                      <i class="nav-icon teal-ico fas fa-envelope"></i>
+                      <p>
+                          Messages
+                      </p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
                     <a href="{{Route('profile.index')}}" class="nav-link {{Request::is('jobseekers/profile*')  ? 'active' : ''}}">
                       <i class="nav-icon pink-ico fas fa-users"></i>
                       <p>

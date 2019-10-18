@@ -16,7 +16,7 @@
 
                             <img  v-if="data.sentBy == 1" class="direct-chat-img" :src=" 'http://job2.io/images/' + [photo ? 'profiles/'+users.photo : 'user.jpg'] " alt="message user image">
 
-                            <img v-else class="direct-chat-img" :src=" 'http://job2.io/images/' + [photo ? 'profiles/'+pic : 'user.jpg'] " alt="message user image">
+                            <img v-else class="direct-chat-img" :src=" 'http://job2.io/images/' + [cphoto ? 'profiles/'+pic : 'user.jpg'] " alt="message user image">
 
                             <!-- /.direct-chat-img -->
                             <div class="direct-chat-text">
@@ -53,6 +53,7 @@ export default {
             pos : false,
             error : false,
             photo : false,
+            cphoto : false,
             users : null,
             pic : null,
             cmp : 'You',
@@ -82,7 +83,7 @@ export default {
                 }
                 if(res.data.cmp.photo != null)
                 {
-                     this.photo = true;
+                     this.cphoto = true;
                      this.pic = res.data.cmp.photo;
                 }
                 this.msgs = res.data.chats;

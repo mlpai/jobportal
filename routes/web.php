@@ -21,6 +21,7 @@ Route::get('/verify/Email/Resend','Authorization\VerificationController@resendEm
 
 // msg send chat pop-up
 Route::get('/msg/{Jobseekerid}/{CompanyId}','CompanyPostsController@GetMsg')->middleware(['auth','profileCreated'])->prefix('company');
+Route::get('/jobseekers/msg/{Jobseekerid}/{CompanyId}','JobSeekers\JobSeekerController@GetMsg')->middleware(['auth']);
 Route::post('/msg','CompanyJobseekerMsgController@store')->middleware('auth')->name('chatPost');
 
 //company
@@ -64,6 +65,7 @@ Route::group(['middleware' => ['auth','onlyJobseeker'],'prefix'=>'jobseekers'], 
     Route::resource('/profile','jobSeekers\jobseekerProfileController');
     Route::resource('/profile/Experiences','jobSeekers\JobseekerExperienceController')->except('show','index');
 
+    Route::get('/messages','JobSeekers\JobSeekerController@messages')->name('messages');
     Route::get('/dashboard','JobSeekers\JobSeekerController@index')->name('jobseeker');
     Route::get('post/{post}/{type?}','JobSeekers\JobSeekerController@create')->name('applyPost');
 });
