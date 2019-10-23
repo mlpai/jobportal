@@ -48,7 +48,7 @@ class jobseekerController extends Controller
     {
         $user = ['name'=>$Jobseekerid->name,'photo'=>$Jobseekerid->JobseekerProfile->profile_photo];
         $cmp = ['name'=>$CompanyId->name,'photo'=>$CompanyId->CompanyProfile->photo];
-        $chats = CompanyJobseekerMsg::where('jobseeker_id',$Jobseekerid->id)->orderby('created_at','desc')->get();
+        $chats = CompanyJobseekerMsg::where('jobseeker_id',$Jobseekerid->id)->where('company_id',$CompanyId->id)->orderby('created_at','desc')->get();
         return json_encode(['chats'=>$chats,'user'=>$user,'cmp'=>$cmp]);
     }
 

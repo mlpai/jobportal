@@ -1770,7 +1770,8 @@ __webpack_require__.r(__webpack_exports__);
       cphoto: false,
       users: null,
       pic: null,
-      cmp: 'You'
+      cmp: 'You',
+      url: location.protocol + '//' + location.host
     };
   },
   methods: {
@@ -1817,6 +1818,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.getmsg();
+    var autometic = setInterval(this.getmsg, 3000);
+  },
+  beforeDestroy: function beforeDestroy() {
+    clearInterval(autometic);
   }
 });
 
@@ -1989,7 +1994,8 @@ __webpack_require__.r(__webpack_exports__);
       title: '',
       j_id: null,
       c_id: null,
-      show: false
+      show: false,
+      url: location.protocol + '//' + location.host
     };
   },
   methods: {
@@ -1998,6 +2004,7 @@ __webpack_require__.r(__webpack_exports__);
       this.c_id = id;
       this.show = true;
       this.getmsg();
+      var autometic = setInterval(this.getmsg, 3000);
     },
     setmsg: function setmsg() {
       var _this = this;
@@ -2005,7 +2012,7 @@ __webpack_require__.r(__webpack_exports__);
       if (this.text == '') {
         this.error = true;
       } else {
-        axios.post('/jobseekers/jmsg', {
+        axios.post('/msg', {
           message: this.text,
           jobseeker_id: this.j_id,
           company_id: this.c_id
@@ -2046,6 +2053,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.j_id = this.jobseeker;
+  },
+  beforeDestroy: function beforeDestroy() {
+    clearInterval(autometic);
   }
 });
 
@@ -50093,7 +50103,8 @@ var render = function() {
                         staticClass: "direct-chat-img",
                         attrs: {
                           src:
-                            "http://job2.io/images/" +
+                            _vm.url +
+                            "/images/" +
                             [
                               _vm.photo
                                 ? "profiles/" + _vm.users.photo
@@ -50106,7 +50117,8 @@ var render = function() {
                         staticClass: "direct-chat-img",
                         attrs: {
                           src:
-                            "http://job2.io/images/" +
+                            _vm.url +
+                            "/images/" +
                             [_vm.cphoto ? "profiles/" + _vm.pic : "user.jpg"],
                           alt: "message user image"
                         }
@@ -50395,7 +50407,8 @@ var render = function() {
                                 staticClass: "direct-chat-img",
                                 attrs: {
                                   src:
-                                    "http://job2.io/images/" +
+                                    _vm.url +
+                                    "/images/" +
                                     [
                                       _vm.photo
                                         ? "profiles/" + _vm.users.photo
@@ -50408,7 +50421,8 @@ var render = function() {
                                 staticClass: "direct-chat-img",
                                 attrs: {
                                   src:
-                                    "http://job2.io/images/" +
+                                    _vm.url +
+                                    "/images/" +
                                     [
                                       _vm.cphoto
                                         ? "profiles/" + _vm.pic

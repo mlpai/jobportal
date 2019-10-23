@@ -1,16 +1,38 @@
 <template>
-    <div class="">
-        <div class="box box-warning direct-chat direct-chat-warning">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card" >
+                <div class="card-header">
+                  <b>Messages</b>
+                </div>
+                <div class="container">
+                    <ul class="list-group list-group-flush">
+
+                            <li class="list-group-item" v-for="post in posts" >
+                                <a href="#" @click=loadThis(post.JobTitle,post.company_id) class="link" > {{post.JobTitle}} </a>
+                                <span class="badge badge-danger float-right ">1</span>
+                            </li>
+
+                    </ul>
+                </div>
+              </div>
+        </div>
+        <div class="col-md-8">
+                <div v-if="show == true" class="card">
+                    <div class="card-header">
+                    <b>{{title}}</b>
+                    </div>
+                       <div class="box box-warning direct-chat direct-chat-warning">
 
                 <div class="box-body">
                     <!-- Conversations are loaded here -->
                     <div class="direct-chat-messages" >
                         <!-- Message. Default to the left -->
-                        <div v-for="data in msgs" class="direct-chat-msg" :class="[data.sentBy ? 'left' : 'right']" >
+                        <div v-for="data in msgs" class="direct-chat-msg" :class="[data.sentBy ? 'right' : 'left']" >
                             <div class="direct-chat-info clearfix">
-                            <span v-if="data.sentBy == 1" class="direct-chat-name " :class="[data.sentBy ? 'float-left' : 'float-right']">{{users.name}}</span>
-                            <span v-else class="direct-chat-name " :class="[data.sentBy ? 'float-left' : 'float-right']">{{cmp}}</span>
-                            <span class="direct-chat-timestamp small " :class="[data.sentBy ? 'float-right' : 'flaot-left']" >{{data.created_at | formatDate}}</span>
+                            <span v-if="data.sentBy == 1" class="direct-chat-name " :class="[data.sentBy ? 'float-right' : 'float-left']">You</span>
+                            <span v-else class="direct-chat-name " :class="[data.sentBy ? 'float-right' : 'float-left']">{{cmp}}</span>
+                            <span class="direct-chat-timestamp small " :class="[data.sentBy ? 'float-left' : 'float-right']" >{{data.created_at | formatDate}}</span>
                             </div>
                             <!-- /.direct-chat-info -->
 
@@ -39,17 +61,17 @@
                 </div>
                 <!-- /.box-footer-->
                 </div>
+              </div>
         </div>
+    </div>
 </template>
 
 <script>
 export default {
-    props : ['jid','cid'],
+    props : ['posts','jobseeker'],
 
     data : () => {
         return {
-            msgs : null,
-            text : '',
             pos : false,
             error : false,
             photo : false,
@@ -57,14 +79,29 @@ export default {
             users : null,
             pic : null,
             cmp : 'You',
+            msgs : null,
+            text : '',
+            title : '',
+            j_id : null,
+            c_id : null,
+            show : false,
             url : location.protocol + '//' + location.host,
         }
     },
 
     methods: {
+
+        loadThis(title,id){
+            this.title = title;
+            this.c_id = id;
+            this.show = true;
+            this.getmsg();
+            let autometic = setInterval(this.getmsg,3000);
+        },
+
         setmsg(){
             if(this.text == ''){this.error = true} else {
-                axios.post('/msg',{message:this.text, jobseeker_id : this.jid, company_id : this.cid})
+                axios.post('/msg',{message:this.text, jobseeker_id : this.j_id, company_id : this.c_id})
                 .then(res => {
                     this.error = false;
                     this.getmsg();
@@ -76,11 +113,15 @@ export default {
             }
         },
         getmsg(){
-            axios.get('/company/msg/'+this.jid+'/'+this.cid)
+            axios.get('/jobseekers/msg/'+this.j_id+'/'+this.c_id)
             .then(res => {
                 if(res.data.user.photo != null)
                 {
                      this.photo = true;
+                }
+                if(res.data.cmp.name != null)
+                {
+                     this.cmp = res.data.cmp.name;
                 }
                 if(res.data.cmp.photo != null)
                 {
@@ -97,12 +138,11 @@ export default {
     },
 
     mounted() {
-        this.getmsg();
-        let autometic = setInterval(this.getmsg,3000);
+        this.j_id = this.jobseeker;
     },
 
     beforeDestroy() {
-          clearInterval(autometic);
+        clearInterval(autometic);
     },
 }
 </script>

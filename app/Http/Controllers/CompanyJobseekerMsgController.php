@@ -19,19 +19,17 @@ class CompanyJobseekerMsgController extends Controller
             'company_id' => 'required|integer',
         ]);
 
-        if($request->company_id == Auth::user()->id)
+        if($request->company_id == Auth::user()->id || $request->jobseeker_id == Auth::user()->id)
         {
-            $jobseeker = Jobseeker::findorfail($request->jobseeker_id);
+            $data['sentBy'] = 1;
+            if($request->company_id == Auth::user()->id)
+                {$data['sentBy'] = 0;} //0 for company 1 for jobseeker
+            CompanyJobseekerMsg::create($data);
         } else {
             return "Invalid User";
         }
 
         // Store in table
-
-        $data['sentBy'] = '0'; //0 for company 1 for jobseeker
-
-        CompanyJobseekerMsg::create($data);
-
 
     }
 

@@ -20,7 +20,7 @@ Route::get('/verify/Email/Resend','Authorization\VerificationController@resendEm
 
 
 // msg send chat pop-up
-Route::get('/msg/{Jobseekerid}/{CompanyId}','CompanyPostsController@GetMsg')->middleware(['auth','profileCreated'])->prefix('company');
+Route::get('/msg/{Jobseekerid}/{CompanyId}','CompanyPostsController@GetMsg')->middleware(['auth'])->prefix('company');
 Route::get('/jobseekers/msg/{Jobseekerid}/{CompanyId}','JobSeekers\JobSeekerController@GetMsg')->middleware(['auth']);
 Route::post('/msg','CompanyJobseekerMsgController@store')->middleware('auth')->name('chatPost');
 
@@ -29,7 +29,6 @@ Route::get('/profile/edit','CompanyProfileController@index')->prefix('company')-
 Route::post('/profile','CompanyProfileController@store')->prefix('company')->name('CreateProfile');
 
 Route::group(['middleware' => ['auth','profileCreated'],'prefix'=>'company'], function () {
-
 
     Route::get('/dashboard', 'CompanyDashboardController@index')->name('dashboard'); //---------------------
 
