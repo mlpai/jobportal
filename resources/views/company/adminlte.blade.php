@@ -4,7 +4,7 @@
 <!-- Sidebar user panel (optional) -->
 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
   <div class="image">
-    <img src="{{asset('images/')}}/@if(isset(Auth::user()->profile->photo)){{ Auth::user()->profile->photo != null ? 'profiles/'.Auth::user()->profile->photo : 'person_1.jpg' }}@else{{'person_1.jpg'}}@endif" class="img-circle elevation-2" alt="User Image">
+    <img class="profile-user-img d-flex img-circle" src="{{asset('images/')}}/@if(isset($company->CompanyProfile->photo)){{ $company->CompanyProfile->photo != null ? 'profiles/'.$company->CompanyProfile->photo : 'person_1.jpg' }}@else{{'person_1.jpg'}}@endif" alt="User profile picture">
   </div>
   <div class="info">
     <a href="#" class="d-block">{{ucwords(strtolower(Auth::user()->name))}}</a>

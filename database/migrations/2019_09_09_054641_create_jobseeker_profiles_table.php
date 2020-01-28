@@ -18,6 +18,7 @@ class CreateJobseekerProfilesTable extends Migration
             $table->unsignedBigInteger('jobseeker_id')->index();
             $table->string('profile_photo')->nullable();
             $table->string('profile_title');
+            $table->string('mobile')->nullable();
             $table->string('address');
             $table->bigInteger('career_level')->default(0);
             $table->text('key_skills')->nullable();
@@ -25,7 +26,6 @@ class CreateJobseekerProfilesTable extends Migration
             $table->bigInteger('visibility')->default(1);
             $table->timestamps();
             $table->softDeletes();
-
             $table->foreign('jobseeker_id')->references('id')->on('users');
         });
     }

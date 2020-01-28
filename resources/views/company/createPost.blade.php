@@ -37,11 +37,11 @@
                 @foreach ($posts as $key=>$post)
                 <tr>
                     <td>{{$posts->firstItem()+$key}}</td>
-                    <td><a data-toggle="tooltip" title="Edit this post" href="{{Route('showpost').'/'.$post->id.'/'.str_replace(' ','-',$post->JobTitle)}}" >{{$post->JobTitle}}</a></td>
+                    <td><a data-toggle="tooltip" title="Edit this post" href="{{Route('showpost').'/'.$post->id.'/'.str_slug($post->JobTitle)}}" >{{$post->JobTitle}}</a></td>
                     <td>{{$post->Location}}</td>
                     <td>{{date('d M Y',strtotime($post->created_at))}}</td>
-                <td>@if($post->jobseekers()->where('type',1)->count() > 0) <a href="{{route('candidates',$post->id)}}/{{str_replace(' ','-',$post->JobTitle)}}"> {{$post->jobseekers()->where('type',1)->count()}} Candidated </a> @else 0 Candidate @endif</td>
-                    <td>0</td>
+                <td>@if($post->jobseekers()->where('type',1)->count() > 0) <a href="{{route('candidates',$post->id)}}/{{str_slug($post->JobTitle)}}"> {{$post->jobseekers()->where('type',1)->count()}} Candidated </a> @else 0 Candidate @endif</td>
+                    <td>{{$post->views}}</td>
                     <td>
                     <job-status post_id='{{$post->id}}' text = '{{$post->job_status}}' ></job-status>
                     </td>

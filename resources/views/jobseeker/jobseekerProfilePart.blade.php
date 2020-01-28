@@ -82,8 +82,8 @@
                                 <tr>
                                     <th scope="row">Key Skills</th>
                                     <td>
-                                        @foreach (array_unique(explode(",",$jobseeker->JobseekerProfile->key_skills)) as $item)
-                                            <span class="badge badge-secondary">{{$item}}</span>
+                                        @foreach ($jobseeker->keyskills as $item)
+                                            <span class="badge badge-secondary">{{$item->keyskill}}</span>
                                         @endforeach
                                     </td>
                                 </tr>

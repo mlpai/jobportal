@@ -102,11 +102,14 @@
 
               <div class="bg-light p-3 border rounded">
                 <h3 class="text-primary  mt-3 h5 pl-3 mb-3 ">Share</h3>
-                <div class="px-3">
-                  <a href="#" class="pt-3 pb-3 pr-3 pl-0"><span class="fab fa-facebook-f"></span></a>
-                  <a href="#" class="pt-3 pb-3 pr-3 pl-0"><span class="fab fa-twitter"></span></a>
-                  <a href="#" class="pt-3 pb-3 pr-3 pl-0"><span class="fab fa-linkedin-in"></span></a>
-                  <a href="#" class="pt-3 pb-3 pr-3 pl-0"><span class="fab fa-pinterest-p"></span></a>
+                <div class="pb-4">
+                  {!!
+                    Share::currentPage('Apply for this Job')
+                    ->facebook()
+                    ->twitter()
+                    ->linkedin('Apply this job')
+                    ->whatsapp();
+                    !!}
                 </div>
               </div>
 
@@ -114,3 +117,19 @@
           </div>
         </div>
       </section>
+
+
+      @push('scripts')
+         <script src="{{ asset('js/share.js') }}"></script>
+      @endpush
+
+    @push('styles')
+        <style>
+            #social-links li {
+                list-style: none;
+                float:left;
+                margin-right: 10px;
+                font-size: 20px;
+            }
+        </style>
+    @endpush

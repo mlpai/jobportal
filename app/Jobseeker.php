@@ -16,6 +16,11 @@ class Jobseeker extends User
         return $this->hasOne('App\JobseekerProfile');
     }
 
+    public function Keyskills()
+    {
+        return $this->hasMany('App\Jobseekerkeyskill');
+    }
+
     public function jobseekerExperience()
     {
         return $this->hasMany('App\jobseeker_experience');
@@ -28,7 +33,7 @@ class Jobseeker extends User
 
     public function posts()
     {
-        return $this->belongsToMany('App\PostedJob')->withTimestamps();
+        return $this->belongsToMany('App\PostedJob')->withPivot('status')->withTimestamps();
     }
 
 }

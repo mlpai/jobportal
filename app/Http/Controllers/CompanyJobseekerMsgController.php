@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Chat\CompanyJobseekerMsg;
-use App\Company;
-use App\Jobseeker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 

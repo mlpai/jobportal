@@ -24,8 +24,22 @@
             </div>
             <div class="card-body no-padding">
                 <div id="accordion{{$jobseeker->id}}">
+
                     <div class="card">
                         <div class="card-header" id="sjobseeker{{$jobseeker->id}}">
+                        <h5 class="mb-0">
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#feedback{{$jobseeker->id}}" aria-expanded="true" aria-controls="feedback{{$jobseeker->id}}">
+                                Status
+                            </button>
+                        </h5>
+                        </div>
+                        <div id="feedback{{$jobseeker->id}}" class="collapse show" aria-labelledby="sjobseeker{{$jobseeker->id}}" data-parent="#accordion{{$jobseeker->id}}">
+                            <feedback-opt job_id={{$job_id}} default_value={{$jobseeker->posts()->where('posted_job_id',$job_id)->first()->pivot->status}} jobseeker={{$jobseeker->id}} ></feedback-opt>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-body" id="sjobseeker{{$jobseeker->id}}">
                         <h5 class="mb-0">
                             <button class="btn btn-link" data-toggle="collapse" data-target="#btnn{{$jobseeker->id}}" aria-expanded="true" aria-controls="btnn{{$jobseeker->id}}">
                                 About
@@ -37,7 +51,7 @@
                             <ul class="list-group">
                                 <li class="list-group-item font-weight-bold d-flex justify-content-between align-items-center">
                                   Experience
-                                  <span class="badge badge-dark">{{$jobseeker->JobseekerProfile->career_level ?? 0 == 0 ? "Fresher" : "Experienced"}}</span>
+                                  <span class="badge badge-dark">{{$jobseeker->JobseekerProfile->career_level ?? 0 == 0 ? "Experienced" : "Fresher"}}</span>
                                 </li>
                                 <li class="list-group-item font-weight-bold d-flex justify-content-between align-items-center">
                                   Email

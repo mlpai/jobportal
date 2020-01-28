@@ -43,7 +43,7 @@
 
                 <div class="mt-4">
                     <b>
-                        <a href="" class="btn btn-dark">View Resume</a>
+                    <a href="{{route('pdf')}}" target="_blank" class="btn btn-dark">View Resume</a>
                     </b>
                 </div>
             </div>
@@ -61,8 +61,9 @@
                    </div>
                    <div class="card-body">
 
-                       <p class="card-text text-secondary text-bold">Saved <span class="badge badge-primary float-right">{{$jobseeker->posts()->where('type',0)->count()}}</span> </p>
-                       <p class="card-text text-secondary text-bold">Applied <span class="badge badge-danger float-right">{{$jobseeker->posts()->where('type',1)->count()}}</span></p>
+                       <a href="#" class="card-text text-secondary text-bold">Saved <span class="badge badge-primary float-right">{{$jobseeker->posts()->where('type',0)->count()}}</span> </a>
+                       <br/>
+                       <a href="{{route('messages')}}" class="card-text text-secondary text-bold">Applied <span class="badge badge-danger float-right">{{$jobseeker->posts()->where('type',1)->count()}}</span></a>
 
                     </div>
                </div>

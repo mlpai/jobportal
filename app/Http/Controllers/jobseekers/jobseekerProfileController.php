@@ -5,8 +5,11 @@ namespace App\Http\Controllers\jobseekers;
 use App\Jobseeker;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\KeySkill;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
+use PDF;
 
 class jobseekerProfileController extends Controller
 {
@@ -35,10 +38,11 @@ class jobseekerProfileController extends Controller
     public function create()
     {
         $jobseeker = Jobseeker::findorfail(Auth::user()->id);
+        $selectedkeyskills = $jobseeker->keyskills->pluck('keyskill','keyskill');
 
         if($jobseeker->jobseekerProfile == null)
         {
-             return view('jobseeker.profile_edit');
+             return view('jobseeker.profile_edit',['selectedkeyskills'=>$selectedkeyskills]);
         }
             else
         {
@@ -93,10 +97,16 @@ class jobseekerProfileController extends Controller
             $profile['profile_photo'] = $Imagename;
         }
 
-        $profile['key_skills'] = implode(',',$request->key_skills);
+        // $profile['key_skills'] = implode(',',$request->key_skills);
+
         $qualification = $request->validate($this->getEducation());
 
+
+
         $jobseeker->jobseekerProfile()->updateOrCreate(['id'=> $jobseeker->jobseekerProfile!=null ? $jobseeker->jobseekerProfile->id : '0'], $profile);
+
+        $jobseeker->Keyskills()->saveMany($request->validate(['key_skills' => 'required']));
+
         $jobseeker->jobseekerEducation()->updateOrCreate($qualification);
 
         return redirect()->route('profile.index')->with(['toastalert'=>'success','message'=>'Details has been updated !!']);
@@ -123,8 +133,8 @@ class jobseekerProfileController extends Controller
     public function edit($id)
     {
          $jobseeker = Jobseeker::findorfail(Auth::user()->id);
-         return view('jobseeker.profile_edit',compact('jobseeker'));
-        // dd($jobseeker);
+         $selectedkeyskills = $jobseeker->keyskills->pluck('keyskill','keyskill');
+         return view('jobseeker.profile_edit',compact('jobseeker','selectedkeyskills'));
     }
 
 
@@ -172,8 +182,17 @@ class jobseekerProfileController extends Controller
             $profile['profile_photo'] = $Imagename;
         }
 
+
         $qualification = $request->validate($this->getEducation());
-        $profile['key_skills'] = implode(',',$request->key_skills);
+
+        // $profile['key_skills'] = implode(',',$request->key_skills);
+        foreach($request->key_skills as $skill)
+        {
+            $jobseeker->Keyskills()->updateOrCreate(['keyskill'=>$skill]);
+        }
+
+        // dd($jobseeker->Keyskills);
+
         $jobseeker->jobseekerProfile()->updateOrCreate(['id'=> $jobseeker->jobseekerProfile!=null ? $jobseeker->jobseekerProfile->id : '0'], $profile);
         $jobseeker->jobseekerEducation()->updateOrCreate(['id'=> $jobseeker->jobseekerProfile!=null ? $jobseeker->jobseekerProfile->id : '0'],$qualification);
 
@@ -197,9 +216,9 @@ class jobseekerProfileController extends Controller
     {
         $profile = [
             'profile_title' => 'required',
-            'key_skills' => 'required',
             'address' => 'required',
             'current_salary' => 'required|numeric',
+            'mobile' => 'required|digits:10',
             'profile_photo' => 'sometimes|image|max:1500',
         ];
         return $profile;
@@ -214,6 +233,19 @@ class jobseekerProfileController extends Controller
             'percentage' => 'nullable|string',
         ];
         return $qualification;
+    }
+
+
+
+    public function getpdf()
+    {
+        $jobseeker = Jobseeker::findorfail(Auth::user()->id);
+        $Exmonths = $jobseeker->jobseekerExperience->sum('experience_month');
+        $Exyear = intval($Exmonths / 12);
+        $month = intval($Exmonths % 12);
+        $year = $jobseeker->jobseekerExperience->sum('experience_year') + $Exyear;
+        $pdf = PDF::loadview('jobseeker.resume',['jobseeker'=>$jobseeker]);
+        return $pdf->download(str_slug(Auth::user()->name." Resume").'.pdf');
     }
 
 }

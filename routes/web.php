@@ -32,6 +32,8 @@ Route::group(['middleware' => ['auth','profileCreated'],'prefix'=>'company'], fu
 
     Route::get('/dashboard', 'CompanyDashboardController@index')->name('dashboard'); //---------------------
 
+    Route::post('/update/Status/{post}/{jobseeker}/{status}', 'CompanyDashboardController@changeJobStatus')->name('changeJobStatus');
+
     Route::get('post-job','CompanyPostsController@index')->name('postjob');
 
     Route::get('post-job/create-step-1','CompanyPostsController@formpart1')->name('formpart1');
@@ -61,7 +63,11 @@ Route::group(['middleware' => ['auth','profileCreated'],'prefix'=>'company'], fu
 //JobSeekers
 
 Route::group(['middleware' => ['auth','onlyJobseeker'],'prefix'=>'jobseekers'], function () {
+
+    Route::get('/profile/pdf/download','jobSeekers\jobseekerProfileController@getpdf')->name('pdf');
+
     Route::resource('/profile','jobSeekers\jobseekerProfileController');
+
     Route::resource('/profile/Experiences','jobSeekers\JobseekerExperienceController')->except('show','index');
 
     Route::get('/messages','JobSeekers\JobSeekerController@messages')->name('messages');

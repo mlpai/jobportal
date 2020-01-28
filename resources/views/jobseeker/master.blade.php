@@ -1,6 +1,6 @@
 @extends('layouts.AdminTemplate')
 
-@section('themetitle','Jobseeker Panel')
+@section('title','Jobseeker Panel')
 
 @section('navbar')
 <div class="sidebar">

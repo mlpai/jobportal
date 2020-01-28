@@ -55,6 +55,11 @@
                   </div>
                         <div class="col-md-6">
                                 <div class="form-group">
+                                        <label for="address">Current Mobile<mandantory></mandantory></label>
+                                        <input class="form-control @error('mobile') is-invalid @enderror" name="mobile" id="mobile" value='{{old('mobile',isset($jobseeker) ? $jobseeker->JobseekerProfile->mobile : '')}}'/>
+                                        @error('mobile') <div class="alert alert-danger">{{$message}}</div> @enderror
+                                    </div>
+                                <div class="form-group">
                                         <label for="address">Current/Expected Salary/Month<mandantory></mandantory></label>
                                         <input class="form-control @error('current_salary') is-invalid @enderror" name="current_salary" id="current_salary" value='{{old('current_salary',isset($jobseeker) ? $jobseeker->JobseekerProfile->current_salary : '')}}'/>
                                         @error('current_salary') <div class="alert alert-danger">{{$message}}</div> @enderror
@@ -67,14 +72,11 @@
                                     </div>
 
                             <div class="form-group">
+
                                 <label for="KeySkills">Key Skills<mandantory></mandantory></label>
-                                <select id="key_skills" name="key_skills[]" class="form-control js-example-basic-multiple @error('key_skills') is-invalid @enderror" class="" multiple="multiple">
-                                    <option>Communication</option>
-                                    <option>Excel</option>
-                                  </select>
+                                {{Form::select('key_skills[]', $selectedkeyskills , $selectedkeyskills ,['multiple'=>'true','class'=>'form-control js-example-basic-multiple'])}}
                                 @error('key_skills') <div class="alert alert-danger">{{$message}}</div> @enderror
                             </div>
-
                                 <div class="custom-file">
                                     <input type="file" onchange="fname(this)" name="profile_photo" class="custom-file-input @error('profile_photo') is-invalid @enderror" id="customFile">
                                     <label class="custom-file-label" id="fileLable" for="customFile">Select Your Photo</label>

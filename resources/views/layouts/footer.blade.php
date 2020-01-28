@@ -32,13 +32,27 @@
         <div class="col-6 col-md-3 mb-4 mb-md-0">
             <h3>Contact Us</h3>
             <div class="footer-social">
-            <a href="#"><span class="fab fa-facebook-f"></span></a>
-            <a href="#"><span class="fab fa-twitter"></span></a>
-            <a href="#"><span class="fab fa-instagram"></span></a>
-            <a href="#"><span class="fab fa-linkedin-in"></span></a>
+                    {!!
+                        Share::currentPage('Apply for Jobs here @ ')
+                        ->facebook()
+                        ->twitter()
+                        ->linkedin('Apply this job')
+                        ->whatsapp();
+                        !!}
             </div>
         </div>
         </div>
 
     </div>
 </footer>
+
+@push('styles')
+<style>
+    #social-links li {
+        float:left ;
+        display: inline;
+        margin-right: 10px;
+        padding: 0px;
+    }
+</style>
+@endpush

@@ -43,6 +43,8 @@ class SiteController extends Controller
 
          $post = $this->CompanyJob()->findorfail($id);
         //  dd($post->jobseekers->isEmpty());
+        $post->views = $post->views + 1;
+        $post->save();
         return view('pages.jobsingle')->with(compact('post'));
     }
 

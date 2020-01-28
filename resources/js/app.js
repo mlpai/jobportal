@@ -56,6 +56,7 @@ Vue.component('JobStatus', require('./components/JobStatus.vue').default);
 Vue.component('chatbox', require('./components/ChatBox.vue').default);
 Vue.component('message', require('./components/JobseekerChatBox.vue').default);
 Vue.component('mandantory', require('./components/mandantorySign.vue').default);
+Vue.component('feedback-opt', require('./components/feedBack.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

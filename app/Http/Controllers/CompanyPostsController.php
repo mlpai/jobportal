@@ -32,7 +32,8 @@ class CompanyPostsController extends Controller
         $posts = PostedJob::where('company_id',Auth::user()->id)->paginate(5);
         // dd($posts()->where("id","96")->get());
         $request->session()->put('updateRequest',$update);
-        return view('company.createPost',['posts'=>$posts]);
+        $company = Company::findorfail(Auth::user()->id);
+        return view('company.createPost',['posts'=>$posts,'company'=>$company]);
     }
 
     //custom resolver for ids
@@ -253,8 +254,8 @@ class CompanyPostsController extends Controller
         {return redirect()->route('postjob');}
 
         $jobseekers = $job->jobseekers()->where('type',1)->paginate(6);
-
-        return view('company.candidatesAppliedForJobs',['jobseekers' => $jobseekers]);
+        $company = Company::findorfail(Auth::user()->id);
+        return view('company.candidatesAppliedForJobs',['jobseekers' => $jobseekers,'company'=>$company,'job_id'=>$job->id]);
     }
 
     //----------------show chats function

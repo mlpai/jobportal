@@ -15,8 +15,9 @@ class jobseekerController extends Controller
 {
     public function index()
     {
-        //$jobseeker->posts->isEmpty()
-        return view('jobseeker.index');
+        $jobs = PostedJob::where('job_status',1)->get();
+        $jobseeker = Jobseeker::findorfail(Auth::user()->id);
+        return view('jobseeker.index')->with(compact(['jobseeker','jobs']));
     }
 
     public function create(PostedJob $post,$type = 1)
@@ -28,7 +29,7 @@ class jobseekerController extends Controller
         // $post = array('type'=>$type);
         if(!$jobseeker->posts()->where(['jobseeker_id'=>$jobseeker->id,'posted_job_id'=>$post->id,'type'=>$type])->exists())
           {
-            $jobseeker->posts()->attach($post,['type'=>$type]);
+            $jobseeker->posts()->attach($post,['type'=>$type,'status'=>1]);
             //$jobseeker->posts()->sync($post);
           }
         return redirect()->back();

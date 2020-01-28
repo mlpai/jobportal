@@ -15,7 +15,7 @@ class PostedJob extends Model
 
     public function jobseekers()
     {
-        return $this->belongsToMany('App\Jobseeker')->withTimestamps();
+        return $this->belongsToMany('App\Jobseeker')->withPivot('status')->withTimestamps();
     }
 
 

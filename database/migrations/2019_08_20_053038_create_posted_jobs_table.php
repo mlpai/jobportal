@@ -27,6 +27,7 @@ class CreatePostedJobsTable extends Migration
             $table->text('JobSummary')->nullable();
             $table->text('responsibility')->nullable();
             $table->text('skills')->nullable();
+            $table->unsignedBigInteger('views')->default(0);
             $table->unsignedBigInteger('job_status')->default(1);
             $table->timestamps();
 
