@@ -5,6 +5,9 @@ Route::get('/', 'SiteController@home')->name('homepage');
 Route::get('/job-listings', 'SiteController@joblistings')->name('joblistings');
 Route::get('/job-details/{id?}/{title?}', 'SiteController@singlejob')->name('firstJob');
 Route::post('/job-listings','SiteController@searchJob')->name('searchJobs');
+Route::post('/','SiteController@subscribe')->name('newsletter');
+// Global PDF
+Route::get('/jobseekers/{token}/profile','jobSeekers\jobseekerProfileController@getEmailProfile')->middleware('auth')->name('jobseekerpdf');
 
 Auth::routes();
 

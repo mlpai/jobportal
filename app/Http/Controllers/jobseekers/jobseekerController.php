@@ -7,9 +7,12 @@ use App\Company;
 use App\Jobseeker;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Mail\JobAppliedNotification;
+use App\Mail\PostAppliedNotification;
 use App\PostedJob;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class jobseekerController extends Controller
 {
@@ -29,10 +32,13 @@ class jobseekerController extends Controller
         // $post = array('type'=>$type);
         if(!$jobseeker->posts()->where(['jobseeker_id'=>$jobseeker->id,'posted_job_id'=>$post->id,'type'=>$type])->exists())
           {
-            $jobseeker->posts()->attach($post,['type'=>$type,'status'=>1]);
+              $jobseeker->posts()->attach($post,['type'=>$type,'status'=>1]);
+            //   dd($jobseeker);
+              Mail::to($post->company->email)->send(new PostAppliedNotification($post,$jobseeker));
+              Mail::to($jobseeker->email)->send(new JobAppliedNotification($post,$jobseeker));
             //$jobseeker->posts()->sync($post);
           }
-        return redirect()->back();
+        return redirect()->back()->with(['Title'=>'Post Applied/Saved','success'=>'Related Email has been sent to your Email.']);
     }
 
 

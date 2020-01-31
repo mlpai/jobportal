@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Auth;
 use App\PostedJob;
 use App\Company;
 use App\Jobseeker;
+use App\Mail\NewJobNotification;
+use App\Mail\NewJobSubscriberNotification;
+use App\newsletter;
+use Illuminate\Support\Facades\Mail;
 
 class CompanyPostsController extends Controller
 {
@@ -168,11 +172,27 @@ class CompanyPostsController extends Controller
         $data2 = $request->session()->get('formpart2');
         $data3 = $request->session()->get('formpart3');
         $new = array_merge($data1,$data2,$data3);
-        //dd($new);
-        Company::findorfail(Auth::user()->id)->Jobs()->create($new);
+        // dd($new);
+
+        $cmp = Company::findorfail(Auth::user()->id)->Jobs()->create($new);
+
+        $jobseekers = Jobseeker::has('JobseekerProfile')->get();
+        foreach($jobseekers as $jobseeker)
+        {
+            Mail::to($jobseeker->email)->send(new NewJobNotification($jobseeker,$cmp));
+        }
+
+        $subscribers = newsletter::latest()->get();
+        foreach($subscribers as $subscriber)
+        {
+            Mail::to($subscriber->email)->send(new NewJobSubscriberNotification($subscriber,$cmp));
+        }
+
         $request->session()->forget('formpart1');
         $request->session()->forget('formpart2');
         $request->session()->forget('formpart3');
+
+
         return redirect()->route('postjob')->with('Success','Job post created !');
     }
 

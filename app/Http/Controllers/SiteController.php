@@ -5,7 +5,8 @@ use Illuminate\Http\Request;
 use App\PostedJob;
 use App\Company;
 use App\Jobseeker;
-use App\Mail\testmail;
+use App\Mail\newsletter as MailNewsletter;
+use App\newsletter;
 use App\User;
 use Illuminate\Support\Facades\Mail;
 
@@ -20,14 +21,23 @@ class SiteController extends Controller
 
     public function home()
     {
-
-
         $posts = $this->CompanyJob();
+        $recruited = $posts->with(['jobseekers'=> function($query){
+            $query->where('status',7);
+        }])->get();
+        $count = 0;
+        foreach($recruited->pluck('jobseekers')->unique()->values()->filter()->all() as $recruit)
+        {
+            if($recruit->isEmpty() == false)
+            {
+                $count = $recruit->count();
+            }
+        }
         $cities = $posts->get('Location');
         $posts = $posts->orderBy('created_at','desc')->paginate(5);
         $usersCount = Company::has('CompanyProfile')->count();
         $jobseekersCount = Jobseeker::has('JobseekerProfile')->count();
-        return view('index')->with(compact('posts','usersCount','jobseekersCount','cities'));
+        return view('index')->with(compact('posts','count','usersCount','jobseekersCount','cities'));
     }
 
     public function joblistings()
@@ -67,6 +77,31 @@ class SiteController extends Controller
             ])->latest();
         $posts = $posts->paginate($posts->count());
         return view('pages.joblistings')->with(compact('posts','cities'));
+    }
+
+
+    function subscribe(Request $request)
+    {
+        $data = $request->validate([
+            'newsletter' => 'required|email|min:5'
+        ],[
+            'newsletter.required' => "Email is Required, Please fill it.",
+            'newsletter.email' => "Email is Not Valid.",
+            'newsletter.min' => "Email Length is not Valid.",
+        ]);
+
+        $newsletter = new newsletter();
+        if($newsletter::where('email','=',$request->newsletter)->exists())
+        {
+            $date = $newsletter::where('email','=',$request->newsletter)->get()->first();
+            // dd($date);
+            return redirect()->back()->with(['success'=>'You have already subscribed us @ '.date('d-m-Y h:i:s A',strtotime($date->created_at))]);
+        } else {
+            $newsletter->email = $request->newsletter;
+            $newsletter->save();
+            Mail::to($request->newsletter)->send(new MailNewsletter($newsletter));
+        }
+        return redirect()->back()->with(['success'=>'Subscribed Successfully']);
     }
 
 }

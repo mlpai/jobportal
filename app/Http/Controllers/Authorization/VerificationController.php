@@ -19,11 +19,17 @@ class VerificationController extends Controller
         {
             $msg = session()->get('msg');
         }
-        return "<div style='text-align:center; margin:0px auto; width:60%;'>
+        return "<div style='text-align:center;border-radius:30px; border:4px double #015e84; margin:50px auto; width:60%;'>
+            <div style='padding:50px;'>
             <h2>".$msg."</h2>
-            <h3>Please Verify Your Email First.</h3>
-            Click here to Resend Verification Code again
-            <a href=".route('resendEmail').">Resend Email</a>
+            <h1>Please Verify Your Email First.</h1>
+            <p>Check your email, and click on the link which is in the mail to verify your Email</p>
+            <hr/>
+            OR
+            <hr/>
+            <p style='color:red'>Click here to Resend Verification Code again</p><br/>
+            <a href=".route('resendEmail')."><button>Resend Email</button></a>
+            </div>
             </div>";
     }
 

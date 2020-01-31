@@ -2,35 +2,6 @@
     <div class="container">
         <div class="row">
         <div class="col-6 col-md-3 mb-4 mb-md-0">
-            <h3>Search Trending</h3>
-            <ul class="list-unstyled">
-            <li><a href="#">Web Design</a></li>
-            <li><a href="#">Graphic Design</a></li>
-            <li><a href="#">Web Developers</a></li>
-            <li><a href="#">Python</a></li>
-            <li><a href="#">HTML5</a></li>
-            <li><a href="#">CSS3</a></li>
-            </ul>
-        </div>
-        <div class="col-6 col-md-3 mb-4 mb-md-0">
-            <h3>Company</h3>
-            <ul class="list-unstyled">
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Career</a></li>
-            <li><a href="#">Blog</a></li>
-            <li><a href="#">Resources</a></li>
-            </ul>
-        </div>
-        <div class="col-6 col-md-3 mb-4 mb-md-0">
-            <h3>Support</h3>
-            <ul class="list-unstyled">
-            <li><a href="#">Support</a></li>
-            <li><a href="#">Privacy</a></li>
-            <li><a href="#">Terms of Service</a></li>
-            </ul>
-        </div>
-        <div class="col-6 col-md-3 mb-4 mb-md-0">
-            <h3>Contact Us</h3>
             <div class="footer-social">
                     {!!
                         Share::currentPage('Apply for Jobs here @ ')
@@ -40,6 +11,18 @@
                         ->whatsapp();
                         !!}
             </div>
+        </div>
+        <div class="offset-md-4 col-6 col-md-3 mb-4 mb-md-0">
+            <h4 class="text-light">Subscribe our Newsletter</h4>
+            <form method="post" action="{{route('newsletter')}}" >
+                @csrf
+                <div class="input-group mb-3">
+                    <input type="email" required value='{{old('newsletter')}}' name="newsletter" class="form-control" placeholder="Recipient's email" aria-label="Recipient's email" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                      <button class="btn btn-primary" type="submit">Button</button>
+                    </div>
+                  </div>
+            </form>
         </div>
         </div>
 
@@ -55,4 +38,29 @@
         padding: 0px;
     }
 </style>
+@endpush
+
+@push('scripts')
+
+    @error('newsletter')
+
+        <script>
+            swal.fire({
+                title: 'Oops!',
+                text: '{{$message}}',
+                type: 'error',
+                confirmButtonText: 'Ok'
+            });
+        </script>
+      @enderror
+        @if(Session::has('success'))
+            <script>
+                swal.fire({
+                    title: @if(Session::has('Title')) '{{Session('Title')}}' @else 'Thanks For Subscribe !' @endif,
+                    text: '{{Session('success')}}',
+                    type: 'Success',
+                    confirmButtonText: 'Ok'
+                });
+            </script>
+        @endif
 @endpush

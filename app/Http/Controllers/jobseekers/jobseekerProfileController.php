@@ -235,7 +235,19 @@ class jobseekerProfileController extends Controller
         return $qualification;
     }
 
+    public function getEmailProfile($token)
+    {
 
+        // dd(is_numeric($token));
+        $jobseeker = Jobseeker::findorfail(sha1("#$^*^&%ASKj54".$token."$^*^&%A@SKj54"));
+        // dd($jobseeker);
+        $Exmonths = $jobseeker->jobseekerExperience->sum('experience_month');
+        $Exyear = intval($Exmonths / 12);
+        $month = intval($Exmonths % 12);
+        $year = $jobseeker->jobseekerExperience->sum('experience_year') + $Exyear;
+        $pdf = PDF::loadview('jobseeker.resume',['jobseeker'=>$jobseeker]);
+        return $pdf->download(str_slug(Auth::user()->name." Resume").'.pdf');
+    }
 
     public function getpdf()
     {
