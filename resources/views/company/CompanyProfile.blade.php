@@ -94,7 +94,7 @@
                         <div class="col-md-5">
                             <div class="card card-primary">
                                 <div class="card-body card-profile">
-                                <img class="profile-user-img d-flex img-circle" src="../../images/@if(isset($company->CompanyProfile->photo)){{ $company->CompanyProfile->photo != null ? 'profiles/'.$company->CompanyProfile->photo : 'person_1.jpg' }}@else{{'person_1.jpg'}}@endif" alt="User profile picture">
+                                <img class="profile-user-img d-flex img-circle" src="../../public/images/@if(isset($company->CompanyProfile->photo)){{ $company->CompanyProfile->photo != null ? 'profiles/'.$company->CompanyProfile->photo : 'person_1.jpg' }}@else{{'person_1.jpg'}}@endif" alt="User profile picture">
 
                                 <h3 class="profile-username text-center">{{$company->name}}</h3>
                                 <p class="text-muted text-center">at ({{ isset($company->CompanyProfile->CompanyName) ? $company->CompanyProfile->CompanyName : '' }})</p>

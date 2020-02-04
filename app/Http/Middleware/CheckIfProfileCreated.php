@@ -18,6 +18,11 @@ class CheckIfProfileCreated
     {
         if(Auth::user()->is_Verfied())
         {
+            if(Auth::user()->userType == 'ADMIN_USER')
+            {
+                return redirect(Route('admin'));
+            }
+
             if(Auth::user()->userType == 'JOBSEEKER_USER')
             {
                 return redirect(Route('jobseeker'));

@@ -36,6 +36,11 @@
         display: inline;
         margin-right: 10px;
         padding: 0px;
+        text-align: center;
+        line-height: 40px;
+    }
+    #social-links li:hover a {
+    color:#1644ba;
     }
 </style>
 @endpush

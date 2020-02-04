@@ -71,13 +71,13 @@ class jobseekerProfileController extends Controller
         {
             //find and remove old pic if available
                // dd($company);
-                $oldFile = $jobseeker->jobseekerProfile != null ? $jobseeker->jobseekerProfile->profile_photo : null;
+                $oldFile = $jobseeker->JobseekerProfile != null ? $jobseeker->JobseekerProfile->profile_photo : null;
 
                 if($oldFile!=null)
                 {
-                    if(file_exists("images/profiles/".$oldFile))
+                    if(file_exists("public/images/profiles/".$oldFile))
                     {
-          //              $ss =  unlink("images/profiles/".$oldFile);
+          //              $ss =  unlink("public/images/profiles/".$oldFile);
                     }
                 }
             //---------------------------------------
@@ -92,7 +92,7 @@ class jobseekerProfileController extends Controller
                 $font->align('center');
                 $font->valign('middle');
             });
-            $img->save("images/profiles/".$Imagename, 80, 'jpg');
+            $img->save("public/images/profiles/".$Imagename, 80, 'jpg');
             //return $img->response('jpg');
             $profile['profile_photo'] = $Imagename;
         }
@@ -101,13 +101,17 @@ class jobseekerProfileController extends Controller
 
         $qualification = $request->validate($this->getEducation());
 
+		$jobseeker->jobseekerEducation()->updateOrCreate($qualification);
 
+		$jobseeker->JobseekerProfile()->updateOrCreate(['id'=> $jobseeker->JobseekerProfile!=null ? $jobseeker->JobseekerProfile->id : '0'], $profile);
 
-        $jobseeker->jobseekerProfile()->updateOrCreate(['id'=> $jobseeker->jobseekerProfile!=null ? $jobseeker->jobseekerProfile->id : '0'], $profile);
-
-        $jobseeker->Keyskills()->saveMany($request->validate(['key_skills' => 'required']));
-
-        $jobseeker->jobseekerEducation()->updateOrCreate($qualification);
+        $request->validate(['key_skills'=>'required']);
+        
+	
+		foreach($request->key_skills as $skill)
+        {
+            $jobseeker->Keyskills()->updateOrCreate(['keyskill'=>$skill]);
+        }
 
         return redirect()->route('profile.index')->with(['toastalert'=>'success','message'=>'Details has been updated !!']);
 
@@ -156,13 +160,13 @@ class jobseekerProfileController extends Controller
         {
             //find and remove old pic if available
                // dd($company);
-                $oldFile = $jobseeker->jobseekerProfile != null ? $jobseeker->jobseekerProfile->profile_photo : null;
+                $oldFile = $jobseeker->JobseekerProfile != null ? $jobseeker->JobseekerProfile->profile_photo : null;
 
                 if($oldFile!=null)
                 {
-                    if(file_exists("images/profiles/".$oldFile))
+                    if(file_exists("public/images/profiles/".$oldFile))
                     {
-          //              $ss =  unlink("images/profiles/".$oldFile);
+          //              $ss =  unlink("public/images/profiles/".$oldFile);
                     }
                 }
             //---------------------------------------
@@ -177,7 +181,7 @@ class jobseekerProfileController extends Controller
                 $font->align('center');
                 $font->valign('middle');
             });
-            $img->save("images/profiles/".$Imagename, 80, 'jpg');
+            $img->save("public/images/profiles/".$Imagename, 80, 'jpg');
             //return $img->response('jpg');
             $profile['profile_photo'] = $Imagename;
         }
@@ -186,15 +190,18 @@ class jobseekerProfileController extends Controller
         $qualification = $request->validate($this->getEducation());
 
         // $profile['key_skills'] = implode(',',$request->key_skills);
-        foreach($request->key_skills as $skill)
+        $request->validate(['key_skills'=>'required']);
+        
+	
+		foreach($request->key_skills as $skill)
         {
             $jobseeker->Keyskills()->updateOrCreate(['keyskill'=>$skill]);
         }
 
         // dd($jobseeker->Keyskills);
 
-        $jobseeker->jobseekerProfile()->updateOrCreate(['id'=> $jobseeker->jobseekerProfile!=null ? $jobseeker->jobseekerProfile->id : '0'], $profile);
-        $jobseeker->jobseekerEducation()->updateOrCreate(['id'=> $jobseeker->jobseekerProfile!=null ? $jobseeker->jobseekerProfile->id : '0'],$qualification);
+        $jobseeker->JobseekerProfile()->updateOrCreate(['id'=> $jobseeker->JobseekerProfile!=null ? $jobseeker->JobseekerProfile->id : '0'], $profile);
+        $jobseeker->jobseekerEducation()->updateOrCreate(['id'=> $jobseeker->JobseekerProfile!=null ? $jobseeker->JobseekerProfile->id : '0'],$qualification);
 
         return redirect()->route('profile.index')->with(['toastalert'=>'success','message'=>'Details has been updated !!']);
 
@@ -239,8 +246,13 @@ class jobseekerProfileController extends Controller
     {
 
         // dd(is_numeric($token));
-        $jobseeker = Jobseeker::findorfail(sha1("#$^*^&%ASKj54".$token."$^*^&%A@SKj54"));
-        // dd($jobseeker);
+		for($id=1; $id <= Jobseeker::latest()->get()->first()->id; $id++){
+			if(sha1("#$^*^&%ASKj54".$id."$^*^&%A@SKj54") == $token){
+				break;
+			}
+		}
+        $jobseeker = Jobseeker::findorfail($id);
+         //dd($jobseeker);
         $Exmonths = $jobseeker->jobseekerExperience->sum('experience_month');
         $Exyear = intval($Exmonths / 12);
         $month = intval($Exmonths % 12);

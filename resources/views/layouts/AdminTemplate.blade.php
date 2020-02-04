@@ -101,7 +101,7 @@
 
     <!-- Main Footer -->
     <footer class="main-footer">
-      <strong>Copyright &copy; 2019 <a href="https://job2.io">Jobs</a>.</strong> All rights reserved.
+      <strong>Copyright &copy; {{date('Y')}} <a href="https://macroword.co.in">Easy-Jobs</a>.</strong> All rights reserved.
     </footer>
   </div>
   @endsection

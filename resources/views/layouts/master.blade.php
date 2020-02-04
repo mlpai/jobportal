@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @push('styles')
-<link rel="stylesheet" href="{{asset('css/owl.carousel.min.css')}}">
-<link href="{{asset('css/style.css')}}" rel="stylesheet" />
+    <link rel="stylesheet" href="{{asset('css/owl.carousel.min.css')}}">
+    <link href="{{asset('css/style.css')}}" rel="stylesheet" />
 @endpush
 
 @push('scripts')

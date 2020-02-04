@@ -3,7 +3,7 @@
 @section('content')
         <div class="site-wrap">
             @include('layouts.navbar')
-            @include('layouts.topHeader')
+            @include('layouts.topheader')
 
             @include('layouts.jobs')
             @include('layouts.companieslogo')

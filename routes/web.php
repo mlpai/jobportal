@@ -27,6 +27,17 @@ Route::get('/msg/{Jobseekerid}/{CompanyId}','CompanyPostsController@GetMsg')->mi
 Route::get('/jobseekers/msg/{Jobseekerid}/{CompanyId}','JobSeekers\JobSeekerController@GetMsg')->middleware(['auth']);
 Route::post('/msg','CompanyJobseekerMsgController@store')->middleware('auth')->name('chatPost');
 
+
+// Admin Route
+
+Route::group(['prefix' => 'admin','middleware'=>['auth']], function () {
+    Route::get('/dashboard','Admin\AdminController@dashboard')->name('admin');
+});
+
+
+
+
+
 //company
 Route::get('/profile/edit','CompanyProfileController@index')->prefix('company')->name('EditProfile');
 Route::post('/profile','CompanyProfileController@store')->prefix('company')->name('CreateProfile');
@@ -73,7 +84,7 @@ Route::group(['middleware' => ['auth','onlyJobseeker'],'prefix'=>'jobseekers'], 
 
     Route::resource('/profile/Experiences','jobSeekers\JobseekerExperienceController')->except('show','index');
 
-    Route::get('/messages','JobSeekers\JobSeekerController@messages')->name('messages');
+    Route::get('/messages','JobSeekers\JobseekerController@messages')->name('messages');
     Route::get('/dashboard','JobSeekers\JobSeekerController@index')->name('jobseeker');
-    Route::get('post/{post}/{type?}','JobSeekers\JobSeekerController@create')->name('applyPost');
+    Route::get('post/{post}/{type?}','Jobseekers\JobSeekerController@create')->name('applyPost');
 });

@@ -63,9 +63,9 @@ class CompanyProfileController extends Controller
 
                 if($oldFile!=null)
                 {
-                    if(file_exists("images/profiles/".$oldFile))
+                    if(file_exists("public/images/profiles/".$oldFile))
                     {
-                        $ss =  unlink("images/profiles/".$oldFile);
+                        $ss =  unlink("public/images/profiles/".$oldFile);
                     }
                 }
             //---------------------------------------
@@ -79,7 +79,7 @@ class CompanyProfileController extends Controller
                 $font->align('center');
                 $font->valign('middle');
             });
-            $img->save("images/profiles/".$Imagename, 80, 'jpg');
+            $img->save("public/images/profiles/".$Imagename, 80, 'jpg');
             //return $img->response('jpg');
             $data['photo'] = $Imagename;
         }
