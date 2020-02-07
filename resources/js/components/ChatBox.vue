@@ -76,7 +76,7 @@ export default {
             }
         },
         getmsg(){
-            axios.get('/company/msg/'+this.jid+'/'+this.cid)
+            axios.get('j/company/msg/'+this.jid+'/'+this.cid)
             .then(res => {
                 if(res.data.user.photo != null)
                 {

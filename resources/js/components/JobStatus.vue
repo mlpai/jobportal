@@ -53,7 +53,7 @@
             },
 
             updateState(id){
-                axios.patch('/company/update/postStatus',{'id':id,'text':this.btnLable})
+                axios.patch('j/company/update/postStatus',{'id':id,'text':this.btnLable})
                 .then(res => {
                     Toast.fire({
                         type: 'success',
