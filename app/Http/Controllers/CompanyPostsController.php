@@ -234,9 +234,11 @@ class CompanyPostsController extends Controller
     public function changeStatus(Request $request)
     {
         $status = $request->text == 'Open' ? 1 : 0;
-        //dd(Company::findorfail(Auth::user()->id)->id);
-        $row = PostedJob::Where('company_id',Company::findorfail(Auth::user()->id)->id)->findorfail($request->id);
-
+        if($request->cmp != null){
+            $row = PostedJob::Where('company_id',Company::findorfail($request->cmp)->id)->findorfail($request->id);
+        } else {
+            $row = PostedJob::Where('company_id',Company::findorfail(Auth::user()->id)->id)->findorfail($request->id);
+        }
         $row->job_status = $status;
 
          $row->save();

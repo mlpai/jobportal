@@ -5,8 +5,8 @@
                 <i v-bind:class="{'green-ico' : isGreen,  'red-ico' : isRed}" class="fas fa-circle"></i> {{btnLable}}
             </a>
             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                    <a class="dropdown-item" href="#" @click="open"  ><i class="fas green-ico fa-circle"></i> Open</a>
-                    <a class="dropdown-item" @click="close" href="#"><i class="fas red-ico fa-circle"></i> close</a>
+                    <a class="dropdown-item" href="#" @click="open"  ><i class="fas green-ico fa-circle"></i> Active</a>
+                    <a class="dropdown-item" @click="close" href="#"><i class="fas red-ico fa-circle"></i> Suspend</a>
             </div>
         </div>
     </div>
@@ -14,28 +14,18 @@
 
 <script>
     export default {
-        props: ['post_id','text','url1','cmp_id'],
+        props: ['post_id','text'],
 
         mounted() {
-            // console.log('Component mounted.'),
-            if(this.url1 != undefined)
-            {
-                this.url = this.url1;
-            }
-            if(this.cmp_id != undefined)
-            {
-                this.cmp = this.cmp_id;
-            }
+            console.log('Component mounted.'),
             this.text == 1 ? this.open(0)  : this.close(0);
         },
 
         data : () => {
             return {
-                'btnLable' : 'Open',
+                'btnLable' : 'Active',
                 'isGreen' : false,
                 'isRed' : false,
-                'url' :  '/j/company/update/postStatus',
-                'cmp' : '',
             }
         },
 
@@ -43,7 +33,7 @@
 
 
             close(p=1) {
-                this.btnLable = 'Close';
+                this.btnLable = 'Suspend';
                 this.isRed = true;
                 this.isGreen = false;
                 if(p)
@@ -53,7 +43,7 @@
             },
 
             open(p=1) {
-                this.btnLable = 'Open';
+                this.btnLable = 'Active';
                 this.isRed = false;
                 this.isGreen = true;
                 if(p)
@@ -63,7 +53,7 @@
             },
 
             updateState(id){
-                axios.patch(this.url,{'id':id,'text':this.btnLable,'cmp':this.cmp})
+                axios.patch('/j/admin/dashboard/companies/info',{'id':id,'text':this.btnLable})
                 .then(res => {
                     Toast.fire({
                         type: 'success',

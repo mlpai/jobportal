@@ -52,7 +52,9 @@
             <th><a class="btn btn-primary btn-block" href="{{Route('formpart1')}}"><i class="fas fa-plus"></i> Create Post</a></button></th>
             </tr>
             @else
-                <tr> <th class="text-center"> <big> No Job Created Yet </big> <a class="btn btn-primary btn-block" href="{{Route('formpart1')}}"><i class="fas fa-plus"></i> Create Post</a></button></th>
+                <tr>
+                    <th class="text-center"> <big> No Job Created Yet </big>
+                        <a class="btn btn-primary btn-block" href="{{Route('formpart1')}}"><i class="fas fa-plus"></i> Create Post</a></button></th>
                 </tr>
             @endif
           </tbody></table>

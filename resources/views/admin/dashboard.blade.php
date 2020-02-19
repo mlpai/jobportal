@@ -14,7 +14,7 @@
                   <div class="icon">
                     <i class="fas fa-building"></i>
                   </div>
-                  <a href="{{route('postjob')}}" class="small-box-footer">Show <i class="fa fa-arrow-circle-right"></i></a>
+                  <a href="{{route('companies.index')}}" class="small-box-footer">Show <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
               </div>
 
@@ -28,7 +28,7 @@
                   <div class="icon">
                     <i class="fas fa-users"></i>
                   </div>
-                  <a href="{{route('postjob')}}" class="small-box-footer">Show <i class="fa fa-arrow-circle-right"></i></a>
+                  <a href="{{route('jobseekers.index')}}" class="small-box-footer">Show <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
               </div>
 

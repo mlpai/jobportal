@@ -26,7 +26,7 @@ export default {
 
     methods: {
         updateStatus(){
-            axios.post('j/company/update/Status/'+this.job_id+'/'+this.jobseeker+'/'+this.selected)
+            axios.post('/j/company/update/Status/'+this.job_id+'/'+this.jobseeker+'/'+this.selected)
             .then(res => {
                 Toast.fire({
                         type: 'success',

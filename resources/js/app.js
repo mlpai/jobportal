@@ -53,6 +53,7 @@ Vue.filter('formatDate', function(value) {
   });
 
 Vue.component('JobStatus', require('./components/JobStatus.vue').default);
+Vue.component('UserStatus', require('./components/UserStatus.vue').default);
 Vue.component('chatbox', require('./components/ChatBox.vue').default);
 Vue.component('message', require('./components/JobseekerChatBox.vue').default);
 Vue.component('mandantory', require('./components/mandantorySign.vue').default);

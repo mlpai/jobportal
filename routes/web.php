@@ -15,6 +15,7 @@ Route::get('login/{driver}', 'Auth\LoginController@redirectToProvider')->name('g
 Route::get('login/{driver}/callback', 'Auth\LoginController@handleProviderCallback');
 
 
+
 //verify and Resend Emails and Pages
 Route::get('/EmailVerification','Authorization\VerificationController@index')->prefix('user')->name('verificationPage');
 Route::get('/verify/{token}','Authorization\VerificationController@verify')->prefix('user')->name('verifyEmail');
@@ -28,12 +29,20 @@ Route::get('/jobseekers/msg/{Jobseekerid}/{CompanyId}','JobSeekers\JobSeekerCont
 Route::post('/msg','CompanyJobseekerMsgController@store')->middleware('auth')->name('chatPost');
 
 
+
+
+
 // Admin Route
-
 Route::group(['prefix' => 'admin','middleware'=>['auth']], function () {
+    Route::patch('/dashboard/companies/info','Admin\AdminController@UserStatus');
     Route::get('/dashboard','Admin\AdminController@dashboard')->name('admin');
-});
+    Route::patch('/dashboard/companies', 'CompanyPostsController@changeStatus')->name('adminPostUpdate');
 
+    Route::get('/dashboard/jobseekers/pdf/{id}','Admin\AdminJobseekerController@getpdf')->name('getpdf');
+
+    Route::resource('dashboard/companies','Admin\AdminCompanyController');
+    Route::resource('dashboard/jobseekers','Admin\AdminJobseekerController');
+});
 
 
 

@@ -6,6 +6,7 @@ use App\jobseeker_experience;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Jobseeker;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 class JobseekerExperienceController extends Controller
@@ -92,10 +93,8 @@ class JobseekerExperienceController extends Controller
 
     public function destroy(jobseeker_experience $Experience)
     {
-
-        if(Auth::user()->id == $Experience->jobseeker->id)
+        if($Experience->delete())
         {
-            $Experience->delete();
 
             if($Experience->jobseeker->JobseekerExperience->count() < 1)
             {

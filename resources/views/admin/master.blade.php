@@ -14,7 +14,7 @@
                   <!-- Add icons to the links using the .nav-icon class
                        with font-awesome or any other icon font library -->
                   <li class="nav-item">
-                    <a href="{{Route('jobseeker')}}" class="nav-link {{Request::is('admin/dashboard*') ? 'active' : ''}} ">
+                    <a href="{{Route('admin')}}" class="nav-link {{Request::is('admin/dashboard') ? 'active' : ''}} ">
                       <i class="nav-icon fas orange-ico fa-tachometer-alt"></i>
                       <p>
                         Dashboard
@@ -22,7 +22,7 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="{{Route('messages')}}" class="nav-link {{Request::is('admin/messages*')  ? 'active' : ''}}">
+                    <a href="{{Route('companies.index')}}" class="nav-link {{Request::is('admin/dashboard/companies*')  ? 'active' : ''}}">
                       <i class="nav-icon teal-ico fas fa-building"></i>
                       <p>
                           Companies
@@ -30,7 +30,7 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="{{Route('profile.index')}}" class="nav-link {{Request::is('admin/profile*')  ? 'active' : ''}}">
+                    <a href="{{Route('jobseekers.index')}}" class="nav-link {{Request::is('admin/dashboard/jobseekers*')  ? 'active' : ''}}">
                       <i class="nav-icon pink-ico fas fa-users"></i>
                       <p>
                           Jobseekers

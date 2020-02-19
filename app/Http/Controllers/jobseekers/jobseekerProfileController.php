@@ -106,8 +106,8 @@ class jobseekerProfileController extends Controller
 		$jobseeker->JobseekerProfile()->updateOrCreate(['id'=> $jobseeker->JobseekerProfile!=null ? $jobseeker->JobseekerProfile->id : '0'], $profile);
 
         $request->validate(['key_skills'=>'required']);
-        
-	
+
+
 		foreach($request->key_skills as $skill)
         {
             $jobseeker->Keyskills()->updateOrCreate(['keyskill'=>$skill]);
@@ -191,8 +191,8 @@ class jobseekerProfileController extends Controller
 
         // $profile['key_skills'] = implode(',',$request->key_skills);
         $request->validate(['key_skills'=>'required']);
-        
-	
+
+
 		foreach($request->key_skills as $skill)
         {
             $jobseeker->Keyskills()->updateOrCreate(['keyskill'=>$skill]);
